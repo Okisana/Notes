@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="container"> 
+
+    <div>
+        <button id="newNoteButton"><strong>New note</strong> 
+            <img src="new-note.png" >
+        </button>
+    </div>
+
+       <div id="noteList"> 
+
+        <p id="noteListHeader" class="leftSectionBorders">Note List:</p>
+
+        <ul class="ulList">
+            <!-- <li class="liBorders"><button class="noteNameButton" data-id="0">
+                Note 0
+            </button></li> -->
+         </ul>
+
+    </div>
+
+    <p id="userNote">
+        <textarea id="rightSection" class="textarea"> </textarea>
+        
+        <div id="clearFloat"></div>
+    <div>
+        <button class="button" id="buttonSave"> Save  <img src="savebuttonimage.png" style="width: 20px;">  </button>
+        <button class="button" id="buttonDelete">Delete <img src="deteleimage.png" style="width: 20px;"> </button>
+    </div>
+   
+   
+    </p>
+
+
+</div>
+
+<script src="notesScript.js"></script>
+</body>
+</html>
