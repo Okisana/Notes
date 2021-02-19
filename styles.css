@@ -100,11 +100,19 @@ ul{
         font-size: 15px;
        }
 
+       #divForButtons{
+        float: right;
+        margin-right: 270px;
+           }
+
     #buttonDelete{
         background-color: #fc4343e3;
-        
+        width: 100px;
+        height: 35px;
     }
     #buttonSave{
         background-color:  #72b7f3;
         margin-right: 15px;
+        width: 100px;
+        height: 35px;
     }
