@@ -60,15 +60,19 @@ const onLoad = () => {
       noteText.value = note.content ;
 
       console.log(event);
-    /*
-      if(event.target && event.target.matches("li.liBorders") ){
-        event.target.classList.add('activeNoteName'); // Kā noņemt no elementa class activeNoteName,
-        // kad ir uzklikšķināta cita poga?
-        console.log(event.target.classList.contains('activeNoteName'));
-            }
-          */
-    });
+      const previousActive = document.querySelector('.activeNoteName');
+      if(previousActive){
+        previousActive.classList.remove('activeNoteName');
+      }
+      const activeListItem = event.target;
+      activeListItem.classList.add('activeNoteName');
+      
 
+         // Kā noņemt no elementa class activeNoteName,
+        // kad ir uzklikšķināta cita poga?
+    
+    });
+/*
     // izdzēst Note ar pogu delete
     const deleteButton = document.getElementById('buttonDelete');
     deleteButton.addEventListener('click', () => {
@@ -78,7 +82,7 @@ const onLoad = () => {
       if (event.target && event.target.contains('activeNoteName')) {
         event.target.remove();
       }
-    });
+    }); */
 }
 
 window.addEventListener('DOMContentLoaded', onLoad);
