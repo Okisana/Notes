@@ -1,10 +1,10 @@
 
-#container{
+#container {
     margin-left: 70px;
-    
 }
 
-#newNoteButton{
+
+#newNoteButton {
     width: 120px;
     height: 41px;
     background-color: #b6dcfd;
@@ -14,17 +14,18 @@
     margin-left: 300px;
 }
 
- #noteList{
+
+#noteList {
     background-color: #F0F8FF;
     width: 300px;
     height: 500px;
     border-color: black;
     border-style: solid;
-    border-width: 1.3px; 
+    border-width: 1.3px;
     float: left;
-    }
+}
 
-#noteListHeader{
+#noteListHeader {
     height: 20px;
     padding-top: 8px;;
     padding-bottom: 10px;
@@ -33,86 +34,88 @@
     font-weight: bold;
     font-size: 18px;
     margin: 0;
-  
 }
 
-ul{
+ul {
     margin: 0px;
     padding: 0px;
-    list-style-type: none; 
- }
+    list-style-type: none;
+}
 
-.liBorders{
+.liBorders {
     margin: 0;
 
     border-bottom: 1px solid black;
     height: 40px;
 }
 
-.noteNameButton{
-/*  
+
+.noteNameButton {
+/*
     width: 250px;
     height: 30px; */
     width: 100%;
         height: 100%;
     text-align: left;
     background-color:#F0F8FF;
-   
-}   
+}
 
-.activeNoteName{
+.activeNoteName {
     font-weight: bold;
     background-color: #76f3b5;
+}
 
-}  
-#rightSection{
-        
-        width: 60%;
-        height: 500px;
-        border-color: black;
-        border-style: solid;
-        border-width: 0.05em;
-        border-left: none; 
-        font-size: 18px;
-        resize: none;
-    }
-#clearFloat{
+#rightSection {
+    width: 60%;
+    height: 500px;
+    border-color: black;
+    border-style: solid;
+    border-width: 0.05em;
+    border-left: none;
+    font-size: 18px;
+    resize: none;
+}
+
+#clearFloat {
     clear:both;
     margin: 0;
 }
-    #userNote{
-        margin-top: 0;
-           }
-    .button{
-        margin: 0;
-        
-         /*
-        float: right;
-        position: relative;
-        Nepravilno! right: 250px;
-        bottom: 20px;
-        width: 110px;
-        height: 34px; */
 
-        background-color:green;
-        border-radius: 8em;
-        font-weight: bold;
-        font-size: 15px;
-       }
+#userNote {
+    margin-top: 0;
+}
 
-       #divForButtons{
-        float: right;
-        margin-right: 270px;
-           }
+.button {
+    margin: 0;
 
-    #buttonDelete{
-        background-color: #fc4343e3;
-        width: 100px;
-        height: 35px;
-    }
-    #buttonSave{
-        background-color:  #72b7f3;
-        margin-right: 15px;
-        width: 100px;
-        height: 35px;
-    }
+        /*
+    float: right;
+    position: relative;
+    Nepravilno! right: 250px;
+    bottom: 20px;
+    width: 110px;
+    height: 34px; */
+
+    background-color:green;
+    border-radius: 8em;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#divForButtons {
+    float: right;
+    margin-right: 270px;
+}
+
+#buttonDelete {
+    background-color: #fc4343e3;
+    width: 100px;
+    height: 35px;
+}
+
+#buttonSave{
+    background-color:  #72b7f3;
+    margin-right: 15px;
+    width: 100px;
+    height: 35px;
+}
