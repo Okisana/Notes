@@ -3,9 +3,10 @@
 const onLoad = () => {
   document.getElementById("rightSection").value = ""; // empty textarea
 
-  const notes = [];
+  let notes = [];
 
   const findNoteById = (id) => notes.find((note) => note.id === id);
+  const deleteNoteById = (id) => notes.filter((note) => note.id === id);
 
   const newNoteButton = document.getElementById('newNoteButton'); // poga pievieno jaunas piezīmes nosaukumu
   // jaunas piezīmes izveidošana
@@ -51,6 +52,8 @@ const onLoad = () => {
 
     console.log("notes", notes); // textarea saturs ielikts in array
 
+    
+
     // event delegation from parent ulList to child classes noteNameButton
     document.querySelector('.ulList').addEventListener('click', (event) => {
       const noteText = document.getElementById("rightSection"); // textarea
@@ -65,24 +68,18 @@ const onLoad = () => {
         previousActive.classList.remove('activeNoteName');
       }
       const activeListItem = event.target;
-      activeListItem.classList.add('activeNoteName');
-      
-
-         // Kā noņemt no elementa class activeNoteName,
-        // kad ir uzklikšķināta cita poga?
     
-    });
-/*
-    // izdzēst Note ar pogu delete
-    const deleteButton = document.getElementById('buttonDelete');
-    deleteButton.addEventListener('click', () => {
+     // izdzēst Note ar pogu delete
+      const deleteButton = document.getElementById('buttonDelete');
+      deleteButton.addEventListener('click', (event) => {
+        activeListItem.parentNode.remove();
+        noteText.value = "";
+        notes = deleteNoteById(id);
+      });
     });
 
-    document.querySelector('.ulList').addEventListener('click', (event) => {
-      if (event.target && event.target.contains('activeNoteName')) {
-        event.target.remove();
-      }
-    }); */
-}
+   
+   
+};
 
 window.addEventListener('DOMContentLoaded', onLoad);
