@@ -64,7 +64,7 @@ ul {
     font-size: large;
 }
 
-.checkbox {
+#checkbox {
     margin: 6px auto;
     zoom: 1.5;
    align-items: center;

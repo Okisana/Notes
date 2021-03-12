@@ -19,7 +19,8 @@ const onLoad = () => {
     const newnamesList = document.querySelector('.ulList');
     newnamesList.innerHTML += `
       <li class="liBorders">
-         <input type="checkbox" class="checkbox">
+         <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
+         <input type="checkbox" id="checkbox">
       </li>
     `;
   }
@@ -40,7 +41,7 @@ const onLoad = () => {
       const newnote = {
         id: notes.length+1,
         name: noteName,
-        content: undefined,
+        // content: undefined,
         checked: false,
       };
 
