@@ -2,14 +2,32 @@
 
 const onLoad = () => {
   document.getElementById("rightSection").value = ""; // empty textarea
-
-  let notes = [];
+  
+  let notes = [
+    {id:1, name:"Note 1", content:"text for first note."},
+    {id:2, name:"Note 2", content:"text for second note."},
+    {id:3, name:"Note 3", content:"text for third note."},
+  ]; 
 
   const findNoteById = (id) => notes.find((note) => note.id === id);
   const deleteNoteById = (id) => notes.filter((note) => note.id === id);
 
+  notes.forEach((note) => {
+    renderNoteMenuItem(note);
+  });
+
   const newNoteButton = document.getElementById('newNoteButton'); // poga pievieno jaunas piezīmes nosaukumu
   // jaunas piezīmes izveidošana
+
+  function renderNoteMenuItem(note){
+    const newnamesList = document.querySelector('.ulList');
+    newnamesList.innerHTML += `
+      <li class="liBorders">
+        <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
+      </li>
+    `;
+  }
+
   newNoteButton.onclick = () => {
     const noteName = prompt('Enter note name: ', '');
 
@@ -24,20 +42,16 @@ const onLoad = () => {
         }
       */
       const newnote = {
-        name: noteName,
         id: notes.length+1,
+        name: noteName,
+        content: undefined,
       };
 
       notes.push(newnote);
-
-      const newnamesList = document.querySelector('.ulList');
-      newnamesList.innerHTML += `
-        <li class="liBorders">
-          <button class="noteNameButton" data-id="${newnote.id}"> ${newnote.name} </button>
-        </li>
-      `;
+      renderNoteMenuItem (newnote);
     }
   };
+
 
   const saveButton = document.querySelector('#buttonSave');
   saveButton.addEventListener('click', () => {
@@ -67,6 +81,7 @@ const onLoad = () => {
       if(previousActive){
         previousActive.classList.remove('activeNoteName');
       }
+      event.target.classList.add('activeNoteName');
       const activeListItem = event.target;
     
      // izdzēst Note ar pogu delete
@@ -78,8 +93,6 @@ const onLoad = () => {
       });
     });
 
-   
-   
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
