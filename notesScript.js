@@ -3,14 +3,10 @@
 const onLoad = () => {
   document.getElementById("rightSection").value = ""; // empty textarea
   
-  let notes = [
-    {id:1, name:"Note 1", content:"text for first note."},
-    {id:2, name:"Note 2", content:"text for second note."},
-    {id:3, name:"Note 3", content:"text for third note."},
-  ]; 
+  let notes = JSON.parse(localStorage.getItem('notes'));
 
   const findNoteById = (id) => notes.find((note) => note.id === id);
-  const deleteNoteById = (id) => notes.filter((note) => note.id === id);
+  const deleteNoteById = (id) => notes.filter((note) => note.id !== id);
 
   notes.forEach((note) => {
     renderNoteMenuItem(note);
@@ -23,7 +19,7 @@ const onLoad = () => {
     const newnamesList = document.querySelector('.ulList');
     newnamesList.innerHTML += `
       <li class="liBorders">
-        <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
+         <input type="checkbox" class="checkbox">
       </li>
     `;
   }
@@ -45,13 +41,13 @@ const onLoad = () => {
         id: notes.length+1,
         name: noteName,
         content: undefined,
+        checked: false,
       };
 
       notes.push(newnote);
       renderNoteMenuItem (newnote);
     }
   };
-
 
   const saveButton = document.querySelector('#buttonSave');
   saveButton.addEventListener('click', () => {
@@ -62,11 +58,10 @@ const onLoad = () => {
     const latestNote = notes[notes.length -1]; // masīva pēdējais elements
       latestNote.content = newContent;
       console.log(notes);
+      localStorage.setItem('notes', JSON.stringify(notes));
     });
 
     console.log("notes", notes); // textarea saturs ielikts in array
-
-    
 
     // event delegation from parent ulList to child classes noteNameButton
     document.querySelector('.ulList').addEventListener('click', (event) => {
@@ -90,6 +85,7 @@ const onLoad = () => {
         activeListItem.parentNode.remove();
         noteText.value = "";
         notes = deleteNoteById(id);
+        localStorage.setItem('notes', JSON.stringify(notes));
       });
     });
 
