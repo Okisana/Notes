@@ -8,9 +8,32 @@ const onLoad = () => {
   const findNoteById = (id) => notes.find((note) => note.id === id);
   const deleteNoteById = (id) => notes.filter((note) => note.id !== id);
 
-  notes.forEach((note) => {
-    renderNoteMenuItem(note);
+  function renderNoteMenu(notes){
+    notes.forEach((note) => {
+      renderNoteMenuItem(note);
+      // pārbaudi vai ir status checked izsauc f. checkNoteStatus();
+    });
+  }
+  renderNoteMenu(notes);
+
+  document.querySelector('.ulList').addEventListener('click', (event) => {
+      if(event.target.checked){
+        sortNotesByChecked(notes);
+      }
+      renderNoteMenu(notes);
   });
+
+  function sortNotesByChecked (notes){
+      // izsauc funkciju sort - el. liec uz pedejo vietu
+      notes.sort((note1, note2) => {
+        if(note1.checked === note2.checked){ return 0;}
+        if(note1.checked === false && note2.checked === true){
+          return -1;
+        } else { return 1;}
+      }
+      );
+    }
+    sortNotesByChecked(notes);
 
   const newNoteButton = document.getElementById('newNoteButton'); // poga pievieno jaunas piezīmes nosaukumu
   // jaunas piezīmes izveidošana
@@ -20,7 +43,7 @@ const onLoad = () => {
     newnamesList.innerHTML += `
       <li class="liBorders">
          <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
-         <input type="checkbox" id="checkbox">
+         <input type="checkbox" class="checkbox">
       </li>
     `;
   }
@@ -66,13 +89,15 @@ const onLoad = () => {
 
     // event delegation from parent ulList to child classes noteNameButton
     document.querySelector('.ulList').addEventListener('click', (event) => {
+      if(event.target) {return;}
+      console.log(event);
+
       const noteText = document.getElementById("rightSection"); // textarea
 
       const id = parseInt(event.target.getAttribute('data-id'));
       const note = findNoteById(id);
-      noteText.value = note.content ;
-
-      console.log(event);
+      noteText.value = note.content;
+    
       const previousActive = document.querySelector('.activeNoteName');
       if(previousActive){
         previousActive.classList.remove('activeNoteName');
