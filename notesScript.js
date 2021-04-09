@@ -1,6 +1,6 @@
 "use strict";
 
-const onLoad = () => {
+const onLoad = (() => {
   document.getElementById("rightSection").value = ""; // empty textarea
   
   let notes = JSON.parse(localStorage.getItem('notes'));
@@ -8,7 +8,13 @@ const onLoad = () => {
   const findNoteById = (id) => notes.find((note) => note.id === id);
   const deleteNoteById = (id) => notes.filter((note) => note.id !== id);
 
+  function clearNoteMenu(){
+    const newnamesList = document.querySelector('.ulList');
+    newnamesList.innerHTML = '';
+  }
+
   function renderNoteMenu(notes){
+    clearNoteMenu();
     notes.forEach((note) => {
       renderNoteMenuItem(note);
       // pārbaudi vai ir status checked izsauc f. checkNoteStatus();
@@ -17,14 +23,22 @@ const onLoad = () => {
   renderNoteMenu(notes);
 
   document.querySelector('.ulList').addEventListener('click', (event) => {
-      if(event.target.checked){
+      // jauzlabo if, janosaka vai tas kas uzklikstitnats ir checkbox 
+    if(event.target.checked){
+     
+      const id = parseInt(event.target.getAttribute('data-id'));
+      const note = findNoteById(id);
+      note.checked = true;
+
         sortNotesByChecked(notes);
+        console.log(notes);
       }
+  
       renderNoteMenu(notes);
   });
 
   function sortNotesByChecked (notes){
-      // izsauc funkciju sort - el. liec uz pedejo vietu
+      // izsauc funkciju sort - el. liec uz pēdējo vietu
       notes.sort((note1, note2) => {
         if(note1.checked === note2.checked){ return 0;}
         if(note1.checked === false && note2.checked === true){
@@ -43,7 +57,7 @@ const onLoad = () => {
     newnamesList.innerHTML += `
       <li class="liBorders">
          <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
-         <input type="checkbox" class="checkbox">
+         <input type="checkbox"  data-id="${note.id}" class="checkbox" ${note.checked?"checked": ""}>
       </li>
     `;
   }
@@ -89,32 +103,35 @@ const onLoad = () => {
 
     // event delegation from parent ulList to child classes noteNameButton
     document.querySelector('.ulList').addEventListener('click', (event) => {
-      if(event.target) {return;}
-      console.log(event);
+       if(event.target.classList.contains('noteNameButton')) {
+        console.log(event);
 
-      const noteText = document.getElementById("rightSection"); // textarea
+        const noteText = document.getElementById("rightSection"); // textarea
 
-      const id = parseInt(event.target.getAttribute('data-id'));
-      const note = findNoteById(id);
-      noteText.value = note.content;
+        const id = parseInt(event.target.getAttribute('data-id'));
+        const note = findNoteById(id);
+        noteText.value = note.content;
     
-      const previousActive = document.querySelector('.activeNoteName');
-      if(previousActive){
-        previousActive.classList.remove('activeNoteName');
-      }
-      event.target.classList.add('activeNoteName');
-      const activeListItem = event.target;
+        const previousActive = document.querySelector('.activeNoteName');
+        if(previousActive){
+          previousActive.classList.remove('activeNoteName');
+        }
+        event.target.classList.add('activeNoteName');
+        const activeListItem = event.target;
     
-     // izdzēst Note ar pogu delete
-      const deleteButton = document.getElementById('buttonDelete');
-      deleteButton.addEventListener('click', (event) => {
-        activeListItem.parentNode.remove();
-        noteText.value = "";
-        notes = deleteNoteById(id);
-        localStorage.setItem('notes', JSON.stringify(notes));
-      });
+        // izdzēst Note ar pogu delete
+        const deleteButton = document.getElementById('buttonDelete');
+        deleteButton.addEventListener('click', (event) => {
+          activeListItem.parentNode.remove();
+          noteText.value = "";
+          notes = deleteNoteById(id);
+          localStorage.setItem('notes', JSON.stringify(notes));
+        });
+       }  
     });
 
-};
+
+      
+});
 
 window.addEventListener('DOMContentLoaded', onLoad);
