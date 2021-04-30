@@ -1,19 +1,19 @@
 "use strict";
 
-const onLoad = (() => {
+const onLoad = () => {
   document.getElementById("rightSection").value = ""; // empty textarea
-  
-  let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+  let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
   const findNoteById = (id) => notes.find((note) => note.id === id);
   const deleteNoteById = (id) => notes.filter((note) => note.id !== id);
 
-  function clearNoteMenu(){
-    const newnamesList = document.querySelector('.ulList');
-    newnamesList.innerHTML = '';
+  function clearNoteMenu() {
+    const newnamesList = document.querySelector(".ulList");
+    newnamesList.innerHTML = "";
   }
 
-  function renderNoteMenu(notes){
+  function renderNoteMenu(notes) {
     clearNoteMenu();
     notes.forEach((note) => {
       renderNoteMenuItem(note);
@@ -22,48 +22,66 @@ const onLoad = (() => {
   }
   renderNoteMenu(notes);
 
-  document.querySelector('.ulList').addEventListener('click', (event) => {
-      // jauzlabo if, janosaka vai tas kas uzklikstitnats ir checkbox 
-    if(event.target.checked){
-     
-      const id = parseInt(event.target.getAttribute('data-id'));
+  document.querySelector(".ulList").addEventListener("click", (event) => {
+    // jauzlabo if, janosaka vai tas kas uzklikstitnats ir checkbox
+    if (event.target.checked) {
+      const id = parseInt(event.target.getAttribute("data-id"));
       const note = findNoteById(id);
       note.checked = true;
 
-        sortNotesByChecked(notes);
-        console.log(notes);
-      }
-  
-      renderNoteMenu(notes);
+      sortNotesByChecked(notes);
+      console.log(notes);
+    }
+
+    renderNoteMenu(notes);
   });
 
-  function sortNotesByChecked (notes){
-      // izsauc funkciju sort - el. liec uz pēdējo vietu
-      notes.sort((note1, note2) => {
-        if(note1.checked === note2.checked){ return 0;}
-        if(note1.checked === false && note2.checked === true){
-          return -1;
-        } else { return 1;}
+  function sortNotesByChecked(notes) {
+    // izsauc funkciju sort - el. liec uz pēdējo vietu
+    notes.sort((note1, note2) => {
+      if (note1.checked === note2.checked) {
+        return 0;
       }
-      );
-    }
-    sortNotesByChecked(notes);
+      if (note1.checked === false && note2.checked === true) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  }
+  sortNotesByChecked(notes);
 
-  const newNoteButton = document.getElementById('newNoteButton'); // poga pievieno jaunas piezīmes nosaukumu
+  // ja noņemts checkbox, tad likt elementu atpakaļ noteListē
+  const checkboxes = document.querySelectorAll("#checkbox");
+  for (let checkboxElement of checkboxes) {
+    console.log(checkboxElement);
+    // checkboxElement.addEventListener('click', function(){
+    //   if(checkboxElement.checked === true){
+    //     checkboxElement.checked = false;
+    //     console.log(checkboxElement);
+    //   }
+    // });
+  }
+
+  const newNoteButton = document.getElementById("newNoteButton"); // poga pievieno jaunas piezīmes nosaukumu
   // jaunas piezīmes izveidošana
 
-  function renderNoteMenuItem(note){
-    const newnamesList = document.querySelector('.ulList');
+  function renderNoteMenuItem(note) {
+    const newnamesList = document.querySelector(".ulList");
     newnamesList.innerHTML += `
       <li class="liBorders">
-         <button class="noteNameButton" data-id="${note.id}"> ${note.name} </button>
-         <input type="checkbox"  data-id="${note.id}" class="checkbox" ${note.checked?"checked": ""}>
+         <button class="noteNameButton" data-id="${note.id}"> ${
+      note.name
+    } </button>
+         <input type="checkbox"  data-id="${note.id}" class="checkbox" ${
+      note.checked ? "checked" : ""
+    }>
       </li>
     `;
   }
 
   newNoteButton.onclick = () => {
-    const noteName = prompt('Enter note name: ', '');
+    const noteName = prompt("Enter note name: ", "");
 
     document.getElementById("rightSection").value = "";
 
@@ -76,62 +94,59 @@ const onLoad = (() => {
         }
       */
       const newnote = {
-        id: notes.length+1,
+        id: notes.length + 1,
         name: noteName,
         // content: undefined,
         checked: false,
       };
 
       notes.push(newnote);
-      renderNoteMenuItem (newnote);
+      renderNoteMenuItem(newnote);
     }
   };
 
-  const saveButton = document.querySelector('#buttonSave');
-  saveButton.addEventListener('click', () => {
-    const textareaValue = () => document.getElementById("rightSection").value;  // textarea saturs FUNKCIJA!!!!
+  const saveButton = document.querySelector("#buttonSave");
+  saveButton.addEventListener("click", () => {
+    const textareaValue = () => document.getElementById("rightSection").value; // textarea saturs FUNKCIJA!!!!
 
     const newContent = textareaValue();
 
-    const latestNote = notes[notes.length -1]; // masīva pēdējais elements
-      latestNote.content = newContent;
-      console.log(notes);
-      localStorage.setItem('notes', JSON.stringify(notes));
-    });
+    const latestNote = notes[notes.length - 1]; // masīva pēdējais elements
+    latestNote.content = newContent;
+    console.log(notes);
+    localStorage.setItem("notes", JSON.stringify(notes));
+  });
 
-    console.log("notes", notes); // textarea saturs ielikts in array
+  console.log("notes", notes); // textarea saturs ielikts in array
 
-    // event delegation from parent ulList to child classes noteNameButton
-    document.querySelector('.ulList').addEventListener('click', (event) => {
-       if(event.target.classList.contains('noteNameButton')) {
-        console.log(event);
+  // event delegation from parent ulList to child classes noteNameButton
+  document.querySelector(".ulList").addEventListener("click", (event) => {
+    if (event.target.classList.contains("noteNameButton")) {
+      console.log(event);
 
-        const noteText = document.getElementById("rightSection"); // textarea
+      const noteText = document.getElementById("rightSection"); // textarea
 
-        const id = parseInt(event.target.getAttribute('data-id'));
-        const note = findNoteById(id);
-        noteText.value = note.content;
-    
-        const previousActive = document.querySelector('.activeNoteName');
-        if(previousActive){
-          previousActive.classList.remove('activeNoteName');
-        }
-        event.target.classList.add('activeNoteName');
-        const activeListItem = event.target;
-    
-        // izdzēst Note ar pogu delete
-        const deleteButton = document.getElementById('buttonDelete');
-        deleteButton.addEventListener('click', (event) => {
-          activeListItem.parentNode.remove();
-          noteText.value = "";
-          notes = deleteNoteById(id);
-          localStorage.setItem('notes', JSON.stringify(notes));
-        });
-       }  
-    });
+      const id = parseInt(event.target.getAttribute("data-id"));
+      const note = findNoteById(id);
+      noteText.value = note.content;
 
+      const previousActive = document.querySelector(".activeNoteName");
+      if (previousActive) {
+        previousActive.classList.remove("activeNoteName");
+      }
+      event.target.classList.add("activeNoteName");
+      const activeListItem = event.target;
 
-      
-});
+      // izdzēst Note ar pogu delete
+      const deleteButton = document.getElementById("buttonDelete");
+      deleteButton.addEventListener("click", (event) => {
+        activeListItem.parentNode.remove();
+        noteText.value = "";
+        notes = deleteNoteById(id);
+        localStorage.setItem("notes", JSON.stringify(notes));
+      });
+    }
+  });
+};
 
-window.addEventListener('DOMContentLoaded', onLoad);
+window.addEventListener("DOMContentLoaded", onLoad);
