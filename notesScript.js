@@ -3,7 +3,7 @@
 const onLoad = (() => {
   document.getElementById("rightSection").value = ""; // empty textarea
   
-  let notes = JSON.parse(localStorage.getItem('notes'));
+  let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
   const findNoteById = (id) => notes.find((note) => note.id === id);
   const deleteNoteById = (id) => notes.filter((note) => note.id !== id);
