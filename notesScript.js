@@ -24,15 +24,18 @@ const onLoad = () => {
 
   document.querySelector(".ulList").addEventListener("click", (event) => {
     // jauzlabo if, janosaka vai tas kas uzklikstitnats ir checkbox
-    if (event.target.checked) {
+
+    if (event.target.type === "checkbox") {
       const id = parseInt(event.target.getAttribute("data-id"));
       const note = findNoteById(id);
-      note.checked = true;
-
+      if (event.target.checked) {
+        note.checked = true;
+        console.log(notes);
+      } else {
+        note.checked = false;
+      }
       sortNotesByChecked(notes);
-      console.log(notes);
     }
-
     renderNoteMenu(notes);
   });
 
@@ -50,18 +53,6 @@ const onLoad = () => {
     });
   }
   sortNotesByChecked(notes);
-
-  // ja noņemts checkbox, tad likt elementu atpakaļ noteListē
-  const checkboxes = document.querySelectorAll("#checkbox");
-  for (let checkboxElement of checkboxes) {
-    console.log(checkboxElement);
-    // checkboxElement.addEventListener('click', function(){
-    //   if(checkboxElement.checked === true){
-    //     checkboxElement.checked = false;
-    //     console.log(checkboxElement);
-    //   }
-    // });
-  }
 
   const newNoteButton = document.getElementById("newNoteButton"); // poga pievieno jaunas piezīmes nosaukumu
   // jaunas piezīmes izveidošana
